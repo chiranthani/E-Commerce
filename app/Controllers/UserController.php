@@ -12,6 +12,7 @@ class UserController
 
     public function __construct(PDO $db)
     {
+      
         $this->userModel = new User($db);
     }
 
