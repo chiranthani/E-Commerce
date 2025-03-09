@@ -16,6 +16,15 @@ class ProductController
     }
 
     /**
+     * load product page
+     */
+    public function loadProductPage()
+    {
+        $products = $this->productModel->getAllProducts();
+        require_once __DIR__ . "/../Views/products.php";
+    }
+
+    /**
      * get product details
      */
     public function getProduct(int $id): void

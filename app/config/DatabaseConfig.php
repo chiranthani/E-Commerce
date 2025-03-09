@@ -7,14 +7,14 @@ use PDOException;
 
 class DatabaseConfig
 {
-    private static ?PDO $connection = null;
+    private static $connection = null;
 
-    public static function getConnection(): PDO
+    public static function getConnection()
     {
-        if (self::$connection === null) {
+        if (self::$connection == null) {
             try {
                 $host = 'localhost';
-                $dbname = 'your_database';
+                $dbname = 'e_commerce';
                 $username = 'root';
                 $password = '';
 
@@ -25,7 +25,7 @@ class DatabaseConfig
                     [
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                        PDO::ATTR_PERSISTENT => true, // Persistent connection
+                        PDO::ATTR_PERSISTENT => true, 
                     ]
                 );
             } catch (PDOException $e) {
