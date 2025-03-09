@@ -17,4 +17,5 @@ $router->add('GET', '/product/get', new ProductController($db), 'getAllProduct')
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
 
+
 $router->dispatch($method, $uri);
