@@ -12,7 +12,7 @@ $router = new Router();
 $db = DatabaseConfig::getConnection(); 
 $router->add('GET', '/', new HomeController($db), 'loadHome');
 $router->add('GET', '/products', new ProductController($db), 'loadProductPage');
-$router->add('GET', '/product/get', new ProductController($db), 'getAllProduct');
+$router->add('GET', '/api/products/get', new ProductController($db), 'getAllProduct');
 
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
