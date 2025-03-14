@@ -28,4 +28,31 @@ class User
         }
     }
 
+    public function create(array $data)
+    {
+        try {
+            $query = "SELECT id FROM users WHERE email = :email";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':email' => $data['email']]);
+            if ($stmt->fetch(PDO::FETCH_ASSOC)) {
+                return ['success' => false, 'message' => 'Email already exists.'];
+            }
+
+            $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
+
+            $query = "INSERT INTO users (name, email, password, phone_no) VALUES (:name, :email, :password, :phone_no)";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                ':name' => htmlspecialchars($data['name']), 
+                ':email' => filter_var($data['email'], FILTER_SANITIZE_EMAIL),
+                ':password' => $hashedPassword, 
+                ':phone_no' => htmlspecialchars($data['phone_no'])
+            ]);
+
+            return ['success' => true, 'message' => 'User registered successfully.'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Registration failed. Please try again later.'];
+        }
+    }
+
 }

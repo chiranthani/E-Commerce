@@ -33,4 +33,27 @@ class UserController
             ResponseHelper::jsonResponse(['error' => 'Internal Server Error'], 500);
         }
     }
+
+    public function registerUser()
+    {
+        try {
+            $jsonData = file_get_contents("php://input");
+            $data = json_decode($jsonData, true);
+           
+            if (!isset($data['name'], $data['email'], $data['password'], $data['phone_no'])) {
+                ResponseHelper::jsonResponse(['error' => 'Missing required fields'], 400);
+                return;
+            }
+
+            $user = $this->userModel->create($data);
+            if ($user['success']) {
+                ResponseHelper::jsonResponse($user, 200);
+            } else {
+                ResponseHelper::jsonResponse(['error' => $user['message']], 400);
+            }
+        } catch (Exception $e) {
+            error_log("User Registration Error: " . $e->getMessage());
+            ResponseHelper::jsonResponse(['error' => 'Internal Server Error'], 500);
+        }
+    }
 }
